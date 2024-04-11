@@ -1,0 +1,15 @@
+SELECT 
+    Date_reported,
+    Country,
+    WHO_region,
+    New_cases,
+    Cumulative_cases,
+    New_deaths,
+    Cumulative_deaths
+FROM 
+    `covid_01.covid_details`
+WHERE
+    New_cases < 10
+ORDER BY 
+    Country,
+    Date_reported;

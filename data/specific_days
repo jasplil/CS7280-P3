@@ -1,0 +1,17 @@
+SELECT *
+FROM (
+    SELECT 
+        Date_reported, 
+        Country,
+        New_cases,
+        LAG(New_cases, 1) OVER (PARTITION BY Country ORDER BY Date_reported) AS Previous_day_cases,
+        (New_cases - LAG(New_cases, 1) OVER (PARTITION BY Country ORDER BY Date_reported)) / 
+        NULLIF(LAG(New_cases, 1) OVER (PARTITION BY Country ORDER BY Date_reported), 0) AS Increase_Percentage
+    FROM 
+        `covid_01.covid_details`
+) AS subquery
+WHERE
+    Increase_Percentage >= 0.5
+ORDER BY 
+    Country,
+    Date_reported;
