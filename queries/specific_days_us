@@ -1,0 +1,17 @@
+SELECT *
+FROM (
+    SELECT 
+        Date, 
+        Province_State,
+        Confirmed,
+        LAG(Confirmed, 1) OVER (PARTITION BY Province_State ORDER BY Date) AS Previous_day_cases,
+        (Confirmed - LAG(Confirmed, 1) OVER (PARTITION BY Province_State ORDER BY Date)) / 
+        NULLIF(LAG(Confirmed, 1) OVER (PARTITION BY Province_State ORDER BY Date), 0) AS Increase_Percentage
+    FROM 
+        `covid_agg.covid_us`
+) AS subquery
+WHERE
+    Increase_Percentage >= 0.5
+ORDER BY 
+    Province_State,
+    Date;
