@@ -1,0 +1,12 @@
+SELECT
+  state,
+  SUM(cases_white) / SUM(cases_total) * 100 AS percent_white,
+  SUM(cases_black) / SUM(cases_total) * 100 AS percent_black,
+  SUM(cases_latinx) / SUM(cases_total) * 100 AS percent_latinx,
+  SUM(cases_asian) / SUM(cases_total) * 100 AS percent_asian,
+FROM
+  `bigquery-public-data.covid19_tracking.covid_racial_data_tracker`
+GROUP BY
+  state
+ORDER BY
+  state;
