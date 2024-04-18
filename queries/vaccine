@@ -1,0 +1,8 @@
+SELECT
+  SUM(cumulative_vaccine_doses_administered_pfizer) AS Total_Pfizer,
+  SUM(cumulative_vaccine_doses_administered_moderna) AS Total_Moderna,
+FROM
+  `bigquery-public-data.covid19_open_data.covid19_open_data`
+WHERE
+  country_name = 'United States of America';
+

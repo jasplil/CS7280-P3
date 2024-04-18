@@ -1,17 +1,17 @@
 SELECT *
 FROM (
     SELECT 
-        Date_reported, 
-        Country,
-        New_cases,
-        LAG(New_cases, 1) OVER (PARTITION BY Country ORDER BY Date_reported) AS Previous_day_cases,
-        (New_cases - LAG(New_cases, 1) OVER (PARTITION BY Country ORDER BY Date_reported)) / 
-        NULLIF(LAG(New_cases, 1) OVER (PARTITION BY Country ORDER BY Date_reported), 0) AS Increase_Percentage
+        Date, 
+        country_name,
+        new_confirmed,
+        LAG(new_confirmed, 1) OVER (PARTITION BY country_name ORDER BY Date) AS Previous_day_cases,
+        (new_confirmed - LAG(new_confirmed, 1) OVER (PARTITION BY country_name ORDER BY Date)) / 
+        NULLIF(LAG(new_confirmed, 1) OVER (PARTITION BY country_name ORDER BY Date), 0) AS Increase_Percentage
     FROM 
-        `covid_01.covid_details`
+        `bigquery-public-data.covid19_open_data.covid19_open_data`
 ) AS subquery
 WHERE
-    Increase_Percentage >= 0.5
+    Increase_Percentage >= 1
 ORDER BY 
-    Country,
-    Date_reported;
+    country_name,
+    Date;

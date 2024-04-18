@@ -1,15 +1,13 @@
-SELECT 
-    Date_reported,
-    Country,
-    WHO_region,
-    New_cases,
-    Cumulative_cases,
-    New_deaths,
-    Cumulative_deaths
-FROM 
-    `covid_01.covid_details`
+SELECT
+    date,
+    country_name,
+    new_confirmed
+    cumulative_confirmed,
+FROM
+  `bigquery-public-data.covid19_open_data.covid19_open_data`
 WHERE
-    New_cases < 10
+  new_confirmed < 10
 ORDER BY 
-    Country,
-    Date_reported;
+    country_name,
+    date;
+
